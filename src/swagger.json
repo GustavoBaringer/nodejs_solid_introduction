@@ -1,0 +1,183 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NodeJs Express Rest API",
+        "description": "NodeJs Express Rest API documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Creates a new user",
+                "requestBody": {
+                    "description": "Parameters to create a new User",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "John Doe",
+                                    "email": "john.doe@email.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "399bd875-62fa-4298-b035-7fbb47b38f98",
+                                    "admin": false,
+                                    "created_at": "2022-04-14T13:22:34.158Z",
+                                    "updated_at": "2022-04-14T13:22:34.158Z",
+                                    "name": "John Doe",
+                                    "email": "john.doe@email.com"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "User already exists"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Retrieves all users",
+                "description": "Only <code>admin</code> users can retrieve all users",
+                "parameters": [{
+                    "in": "headers",
+                    "name": "user_id",
+                    "description": "Id of the user",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "399bd875-62fa-4298-b035-7fbb47b38f98"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": "399bd875-62fa-4298-b035-7fbb47b38f98",
+                                        "admin": false,
+                                        "created_at": "2022-04-14T13:22:34.158Z",
+                                        "updated_at": "2022-04-14T13:22:34.158Z",
+                                        "name": "John Doe",
+                                        "email": "john.doe@email.com"
+                                    },
+                                    {
+                                        "id": "fabe43a4-32d4-4a54-8ca6-cb68a8c2f504",
+                                        "admin": false,
+                                        "created_at": "2022-04-14T18:51:58.705Z",
+                                        "updated_at": "2022-04-14T18:51:58.705Z",
+                                        "name": "Foo Bar",
+                                        "email": "foo.bar@email.com"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "User is not an admin | User not found"
+                    }
+                }
+            }
+        },
+        "/:user_id/admin": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Updates the admin status of a user",
+                "parameters": [{
+                    "in": "path",
+                    "name": "user_id",
+                    "description": "Id of the user",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "399bd875-62fa-4298-b035-7fbb47b38f98"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "399bd875-62fa-4298-b035-7fbb47b38f98",
+                                    "admin": true,
+                                    "created_at": "2022-04-14T13:22:34.158Z",
+                                    "updated_at": "2022-04-14T13",
+                                    "name": "John Doe",
+                                    "email": "john.doe@email.com"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/:user_id": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Retrieves a user",
+                "parameters": [{
+                    "in": "path",
+                    "name": "user_id",
+                    "description": "Id of the user",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "399bd875-62fa-4298-b035-7fbb47b38f98"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User retrieved",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "399bd875-62fa-4298-b035-7fbb47b38f98",
+                                    "admin": false,
+                                    "created_at": "2022-04-14T13:22:34.158Z",
+                                    "updated_at": "2022-04-14T13:22:34.158Z",
+                                    "name": "John Doe",
+                                    "email": "john.doe@email.com"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    }
+}
